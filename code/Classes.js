@@ -3,6 +3,7 @@ class PlacementTile{
         this.position = position
         this.size = TILE_SIZE
         this.color = 'rgba(255,255,255,0.15)' //branco com alpha baixo (transparente)
+        this.hasBuilding = false
     }
 
     draw() {
@@ -61,5 +62,16 @@ class Enemy {
         if (Math.abs(dx) < 5 && Math.abs(dy) < 5 && this.currentWaypointIndex < this.waypoints.length - 1) {
             this.currentWaypointIndex = (this.currentWaypointIndex + 1) // Avança para o próximo waypoint
         }
+    }
+}
+
+class Building{
+    constructor({position = {x: 0, y: 0}}){
+        this.position = position
+    }
+
+    draw(){
+        context.fillStyle = 'blue'
+        context.fillRect(this.position.x, this.position.y, TILE_SIZE*2, TILE_SIZE)
     }
 }

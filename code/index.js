@@ -55,6 +55,9 @@ for (let i = 1; i <= 10; i++) {
     );
 }
 
+const buildings = []
+
+
 // Função de animação que atualiza o canvas
 function animate() {
     requestAnimationFrame(animate); // Solicita a próxima animação
@@ -69,6 +72,10 @@ function animate() {
     placementTiles.forEach(tile => {
         tile.update(mouse);
     });
+
+    buildings.forEach(building => {
+        building.draw()
+    })
 }
 
 // Objeto para armazenar a posição do mouse
@@ -77,8 +84,28 @@ const mouse = {
     y: undefined
 };
 
+canvas.addEventListener('click', (event) => {
+    if(activeTile && !activeTile.hasBuliding){
+        buildings.push(new Building({ position:{ x: activeTile.position.x, y: activeTile.position.y}}))
+        activeTile.hasBuliding = true
+    }
+})
+
 // Adiciona um evento para capturar a posição do mouse quando ele se move
 window.addEventListener('mousemove', (event) => {
     mouse.x = event.clientX; // Atualiza a posição X do mouse
     mouse.y = event.clientY; // Atualiza a posição Y do mouse
+    
+    activeTile = null
+
+    for(let i = 0; i < placementTiles.length; i++){
+        
+        const tile = placementTiles[i]
+        
+        if(mouse.x > tile.position.x && mouse.x < tile.position.x + tile.size && 
+            mouse.y > tile.position.y && mouse.y < tile.position.y + tile.size){
+            activeTile = tile
+            break
+        }
+    }    
 });
